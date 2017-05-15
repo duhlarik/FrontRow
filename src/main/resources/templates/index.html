@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="DeeAnn Uhlarik">
+    <meta name="description" content="A responsive movie poster grabber">
+
+    <title>Front Row</title>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
+    <script src="jquery-3.2.1.js"></script>
+    <script type="text/javascript" src="http://use.typekit.com/oya4cmx.js"></script>
+    <script type="text/javascript">try {
+        Typekit.load();
+    } catch (e) {
+    }
+    </script>
+
+    <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>Front Row</h1>
+    </header>
+    <section id="fetch">
+        <input type="text" placeholder="Enter a movie title" id="movieName"/>
+        <input type="text" placeholder="Optional: Enter year" id="year"/>
+        <button type="submit" id="search">Find Me A Movie</button>
+    </section>
+
+    <section id="posterPanel">
+        <table id="movieInfo" border='.5'>
+            <tr>
+                <th align="center" width="150">Title</th>
+                <th align="center" width="100">Year</th>
+                <th align="center" width="350">Overview</th>
+                <th align="center" width="150">Poster</th>
+            </tr>
+        </table>
+    </section>
+    <footer>
+        <p>Created by DeeAnn Uhlarik</p>
+        <p>This product uses the TMDb API but is not endorsed or certified by TMDb.</p>
+        <p>
+            <img src="https://www.themoviedb.org/assets/static_cache/23e473036b28a59bd5dcfde9c671b1c5/images/v4/logos/312x276-primary-green.png" id="tmdbLogo"/>
+        </p>
+    </footer>
+</div>
+</body>
+</html>
+<script>
+    $.ajax(
+        {
+            "crossDomain": true,
+            "url": "https://api.themoviedb.org/3/configuration?api_key=67ad1d6849999b01d3368da24800cf84",
+            "method": "GET",
+            "success": function (data) {
+                basePath = data.images.base_url;
+            }
+        }
+    ).done(function (response) {
+        console.log(response);
+    });
+
+    $('#search').click(function () {
+        $.ajax(
+            {
+                "crossDomain": true,
+                "url": "https://api.themoviedb.org/3/search/movie?primary_release_year=" + $('#year').val() + "&include_adult=false&page=1&query=" + $('#term').val() + "&language=en-US&api_key=67ad1d6849999b01d3368da24800cf84",
+                "method": "GET",
+                dataType: "json",
+            }
+        ).done(function (data) {
+            console.log(data);
+            let trHTML = '';
+            let poster = '';
+            for (let i = 0; i < data.results.length; i++) {
+                if (data.results[i] !== null) {
+                    if (data.results[i].poster_path !== null) {
+                        poster = basePath + "w780" + data.results[i].poster_path;
+                    } else {
+                        poster = '';
+                    }
+                    console.log(poster);
+                    trHTML +=
+                        '<tr>' +
+                            '<td>' + data.results[i].title + '</td>' +
+                            '<td>' + data.results[i].release_date + '</td>' +
+                            '<td>' + data.results[i].overview + '</td>' +
+                            '<td> <img src="' + poster + '"</td>' +
+                        '</tr>';
+                }
+            }
+            $('#movieInfo').append(trHTML);
+        });
+    });
+</script>

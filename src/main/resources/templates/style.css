@@ -1,0 +1,29 @@
+div {
+    background-color: yellow;
+    margin: 20px;
+    padding: 10px;
+}
+
+#posterPanel {
+    padding: 10px 0px;
+    border: none;
+}
+
+img {
+    width: 100%;
+    height: auto;
+}
+
+#tmdbLogo {
+    width: 10%;
+    height: auto;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+td {
+    vertical-align: top;
+    border-bottom: 1px solid #dddddd;
+}
