@@ -67,7 +67,7 @@
         $.ajax(
             {
                 "crossDomain": true,
-                "url": "https://api.themoviedb.org/3/search/movie?primary_release_year=" + $('#year').val() + "&include_adult=false&page=1&query=" + $('#term').val() + "&language=en-US&api_key=67ad1d6849999b01d3368da24800cf84",
+                "url": "https://api.themoviedb.org/3/search/movie?primary_release_year=" + $('#year').val() + "&include_adult=false&page=1&query=" + $('#movieName').val() + "&language=en-US&api_key=67ad1d6849999b01d3368da24800cf84",
                 "method": "GET",
                 dataType: "json",
             }
@@ -85,10 +85,10 @@
                     console.log(poster);
                     trHTML +=
                         '<tr>' +
-                            '<td>' + data.results[i].title + '</td>' +
+                            '<td>' + '<h2>' + data.results[i].title + '</h2>' +  '</td>' +
                             '<td>' + data.results[i].release_date + '</td>' +
                             '<td>' + data.results[i].overview + '</td>' +
-                            '<td> <img src="' + poster + '"</td>' +
+                            '<td> <img src="' + poster + '"></td>' +
                         '</tr>';
                 }
             }
